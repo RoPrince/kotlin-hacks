@@ -1,5 +1,22 @@
+import java.util.*
+
+enum class EntityTypes{
+    EASY,MEDIUM,HARD;
+
+    fun getFormattedName() = name.toLowerCase().capitalize()
+}
+
 object EnitityFactory {
-    fun create() = SingletonEntity("123","Kotlin")
+    fun create(type: EntityTypes) : SingletonEntity{
+        val id = UUID.randomUUID().toString()
+        val name = when(type){
+
+            EntityTypes.EASY -> type.getFormattedName()
+            EntityTypes.MEDIUM ->type.getFormattedName()
+            EntityTypes.HARD -> type.getFormattedName()
+        }
+        return SingletonEntity(id,name)
+    }
 }
 
 class SingletonEntity(val id: String, val name: String) {
@@ -11,6 +28,13 @@ class SingletonEntity(val id: String, val name: String) {
 }
 
 fun main() {
-    val entity = EnitityFactory.create()
-    println(entity.toString())
+    val entityEasy = EnitityFactory.create(EntityTypes.EASY)
+    println(entityEasy.toString())
+
+    val entityMed = EnitityFactory.create(EntityTypes.MEDIUM)
+    println(entityMed.toString())
+
+
+    val entityHard = EnitityFactory.create(EntityTypes.HARD)
+    println(entityHard.toString())
 }
